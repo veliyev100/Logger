@@ -12,17 +12,25 @@ public:
     }
 
     Logger(const Logger& other): id(++counter) {
-        std::cout << "Logger(const Logger&): " << id << " " << other.id << "\n";
+        std::cout << "Logger(const Logger&): " << id << " " << "\n";
     }
 
     Logger& operator = (const Logger& other) {
-        std::cout << "Logger& operator = (const Logger&) " << id << " " << other.id << "\n";
+        std::cout << "Logger& operator = (const Logger&) " << id << " " << "\n";
         return *this;
     }
 
     ~Logger() {
         --counter;
         std::cout << "~Logger() " << id << "\n";
+    }
+    Logger(Logger&& other): id(++counter) {
+        std::cout << "Logger(Logger&&  other): " << id << " " << "\n";
+    }
+
+    Logger& operator = (Logger&& other) {
+        std::cout << " =&&: " << id << " "  << "\n";
+        return *this;
     }
 };
 void f(const Logger& x) {
@@ -33,9 +41,18 @@ void f(Logger&& x) {
 }
 
 int main() {
-    f(Logger());
+    /*f(Logger());
     std::cout << "Hello!\n";
     Logger x;
     f(x);
     std::cout << "Bye\n";
+    */
+    Logger x1;
+    Logger x2;
+    x2 = x1;
+    x2 = std::move(x1);
+   /* Logger x2 = x1;
+    Logger x3 = Logger();     vsyo eto konstruktor
+    Logger x4 = std::move(x1);
+    */
 }
